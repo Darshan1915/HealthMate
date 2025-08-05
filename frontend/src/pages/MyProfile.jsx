@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -10,22 +10,8 @@ const MyProfile = () => {
 
     const [image, setImage] = useState(false)
 
-    // const { token, backendUrl, userData, setUserData, loadUserProfileData } = useContext(AppContext)
-    const [token, setToken] = useState(true)
-    const [userData, setUserData]= useState({
-      name: "Darshan Patil",
-      image : assets.profile_pic,
-      email: "darshan@example.com",
-      phone: "+91-9876543210",
-      image: "https://example.com/images/profile.jpg", // Use a real image URL or base64 for testing
-      address: {
-        line1: "123, Shree Nagar",
-        line2: "Pune, Maharashtra, India"
-      },
-      gender: "Male",
-      dob: "2000-08-15"
-    })
-
+    const { token, backendUrl, userData, setUserData, loadUserProfileData } = useContext(AppContext)
+ 
     // Function to update user profile data using API
     const updateUserProfileData = async () => {
 
@@ -49,7 +35,7 @@ const MyProfile = () => {
                 toast.success(data.message)
                 await loadUserProfileData()
                 setIsEdit(false)
-                setImage(false)
+                // setImage(false)
             } else {
                 toast.error(data.message)
             }
@@ -68,12 +54,12 @@ const MyProfile = () => {
                 ? <label htmlFor='image' >
                     <div className='inline-block relative cursor-pointer'>
                         <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image} alt="" />
-                        <img className='w-10 absolute bottom-12 right-12' src={image ? '' : assets.upload_icon} alt="" />
+                        {/* <img className='w-10 absolute bottom-12 right-12' src={image ? '' : assets.upload_icon} alt="" /> */}
                     </div>
                     <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden />
                 </label>
                 // : <img className='w-36 rounded' src={userData.image} alt="" />
-                : <img className='w-36 rounded' src={assets.profile_pic} alt="" />
+                : <img className='w-36 rounded' src={image ? userData.image : assets.profile_pic} alt="" />
             }
 
             {isEdit
